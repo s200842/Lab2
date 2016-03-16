@@ -24,5 +24,15 @@ public class Dictionary {
 		}
 		return listaSbagliate;
 	}
+	
+	public List<String> dividiTesto(String testo){
+		//Ho una serie di parole che possono essere separate da spazi, \n oppure segni di punteggiatura (che devo ignorare)
+		List<String> result = new ArrayList<String>();
+		String[] testoSplit = testo.split("[\\s.,;:\\n\\*]+");
+		for(String s : testoSplit){
+			result.add(s);
+		}
+		return result;
+	}
 }
 

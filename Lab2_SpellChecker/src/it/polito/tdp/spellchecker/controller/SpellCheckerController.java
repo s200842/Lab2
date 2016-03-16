@@ -1,9 +1,11 @@
 package it.polito.tdp.spellchecker.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import it.polito.tdp.spellchecker.model.Dictionary;
+import it.polito.tdp.spellchecker.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,12 +45,37 @@ public class SpellCheckerController {
     
     @FXML
     void doClearText(ActionEvent event) {
-
+    	txtInput.setText("");
+    	txtResult.setText("");
     }
 
     @FXML
     void doSpellCheck(ActionEvent event) {
-
+    	if(boxLanguage.getValue() == null){
+    		txtResult.setText("Scegliere una lingua per il controllo ortografico");
+    		return;
+    	}
+    	else if(boxLanguage.getValue().compareTo("English")== 0){
+    		model = new EnglishDictionary();
+    		model.loadDictionary();
+    	}
+    	else if(boxLanguage.getValue().compareTo("Italian")== 0){
+    		model = new ItalianDictionary();
+    		model.loadDictionary();
+    	}
+    	List<RichWord> paroleErrate = new ArrayList<RichWord>();
+    	if(txtInput.getText().compareTo("")==0){
+    		txtResult.setText("Inserire il testo per il controllo ortografico");
+    		return;
+    	}
+    	String inputText = txtInput.getText().toLowerCase();
+    	paroleErrate = model.spellCheckTest(model.dividiTesto(inputText));
+    	String result = "";
+    	for(int i=0; i<paroleErrate.size()-1; i++){
+    		result += paroleErrate.get(i)+" ";
+    	}
+    	result += paroleErrate.get(paroleErrate.size()-1);
+    	txtResult.setText(result);
     }
 
     @FXML
