@@ -25,6 +25,44 @@ public class Dictionary {
 		return listaSbagliate;
 	}
 	
+	public int ricercaDicotomicaStringa(List<String> inputTextList, String s){
+		int start = 0;
+		int end = inputTextList.size()-1;
+		int centro;
+		int posizioneTrovata = -1;
+		while(posizioneTrovata == -1 && start <= end){
+			centro = (start+end)/2;
+			//Trovato
+			if(inputTextList.get(centro).equals(s)){
+				posizioneTrovata = centro;
+			}
+			//Non trovato, continua a destra
+			else if(s.compareTo(inputTextList.get(centro))>0){
+				start = centro+1;
+			}
+			//Non trovato, continua a sinistra
+			else{
+				end = centro -1;
+			}
+		}
+		return posizioneTrovata;
+	}
+	
+	public List<RichWord> spellCheckTestDicotomica(List<String> inputTextList){
+		//Metodo per il controllo ortografico del testo in input
+		List<RichWord> listaSbagliate = new ArrayList<RichWord>();
+		for(String s : inputTextList){
+			//Assumendo che ci sia una parola per riga
+			//Ricerca dicotomica
+			int i = ricercaDicotomicaStringa(inputTextList, s);
+			if(i == -1){
+				RichWord wtemp = new RichWord(s, false);
+				listaSbagliate.add(wtemp);
+			}
+		}
+		return listaSbagliate;
+	}
+	
 	public List<String> dividiTesto(String testo){
 		//Ho una serie di parole che possono essere separate da spazi, \n oppure segni di punteggiatura (che devo ignorare)
 		List<String> result = new ArrayList<String>();

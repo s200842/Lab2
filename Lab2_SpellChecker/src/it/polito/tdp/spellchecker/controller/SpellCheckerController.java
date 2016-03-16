@@ -47,10 +47,12 @@ public class SpellCheckerController {
     void doClearText(ActionEvent event) {
     	txtInput.setText("");
     	txtResult.setText("");
+    	lblResult.setVisible(false);
     }
 
     @FXML
     void doSpellCheck(ActionEvent event) {
+    	//Gestione eccezioni e controllo lingua dizionario
     	if(boxLanguage.getValue() == null){
     		txtResult.setText("Scegliere una lingua per il controllo ortografico");
     		return;
@@ -68,14 +70,23 @@ public class SpellCheckerController {
     		txtResult.setText("Inserire il testo per il controllo ortografico");
     		return;
     	}
+    	//Controllo ortografico e calcolo tempo impiegato
     	String inputText = txtInput.getText().toLowerCase();
-    	paroleErrate = model.spellCheckTest(model.dividiTesto(inputText));
+    	long t0 = System.nanoTime();
+    	paroleErrate = model.spellCheckTestDicotomica(model.dividiTesto(inputText));
+    	long t1 = System.nanoTime();
+    	lblTime.setVisible(true);
+    	lblTime.setText(String.format("Spell check completed in %f seconds", (t1-t0)/1e9));
+    	//Formattazione e comparsa testo risultato
     	String result = "";
     	for(int i=0; i<paroleErrate.size()-1; i++){
     		result += paroleErrate.get(i)+" ";
     	}
     	result += paroleErrate.get(paroleErrate.size()-1);
     	txtResult.setText(result);
+    	if(result.compareTo("")!=0){
+    		lblResult.setVisible(true);
+    	}
     }
 
     @FXML

@@ -48,7 +48,7 @@
                </VBox.margin></TextArea>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="lblResult" text="Your text contains errors!" visible="false">
+                  <Label fx:id="lblResult" text="Your text contains errors!" textFill="#eb0808" visible="false">
                      <HBox.margin>
                         <Insets left="120.0" top="15.0" />
                      </HBox.margin></Label>
