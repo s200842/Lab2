@@ -2,6 +2,8 @@ package it.polito.tdp.spellchecker.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.spellchecker.model.Dictionary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,39 +13,34 @@ import javafx.scene.control.TextArea;
 
 public class SpellCheckerController {
 
-    @FXML // ResourceBundle that was given to the FXMLLoader
+	private Dictionary model;
+    @FXML
     private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
+    @FXML
     private URL location;
-
-    @FXML // fx:id="lblTitle"
-    private Label lblTitle; // Value injected by FXMLLoader
-
-    @FXML // fx:id="lblChoose"
-    private Label lblChoose; // Value injected by FXMLLoader
-
-    @FXML // fx:id="boxLanguage"
-    private ComboBox<String> boxLanguage; // Value injected by FXMLLoader
-
-    @FXML // fx:id="txtInput"
-    private TextArea txtInput; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btnspellCheck"
-    private Button btnspellCheck; // Value injected by FXMLLoader
-
-    @FXML // fx:id="txtResult"
-    private TextArea txtResult; // Value injected by FXMLLoader
-
-    @FXML // fx:id="lblResult"
-    private Label lblResult; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btnClearText"
-    private Button btnClearText; // Value injected by FXMLLoader
-
-    @FXML // fx:id="lblTime"
-    private Label lblTime; // Value injected by FXMLLoader
-
+    @FXML
+    private Label lblTitle;
+    @FXML
+    private Label lblChoose;
+    @FXML
+    private ComboBox<String> boxLanguage;
+    @FXML
+    private TextArea txtInput;
+    @FXML
+    private Button btnspellCheck;
+    @FXML
+    private TextArea txtResult;
+    @FXML
+    private Label lblResult;
+    @FXML
+    private Button btnClearText;
+    @FXML
+    private Label lblTime;
+    
+    public void setModel(Dictionary model){
+    	this.model = model;
+    }
+    
     @FXML
     void doClearText(ActionEvent event) {
 
@@ -54,7 +51,7 @@ public class SpellCheckerController {
 
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
     void initialize() {
         assert lblTitle != null : "fx:id=\"lblTitle\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         assert lblChoose != null : "fx:id=\"lblChoose\" was not injected: check your FXML file 'SpellChecker.fxml'.";
@@ -70,4 +67,3 @@ public class SpellCheckerController {
         boxLanguage.getItems().add("Italian");
     }
 }
-
