@@ -33,11 +33,11 @@ public class Dictionary {
 		while(posizioneTrovata == -1 && start <= end){
 			centro = (start+end)/2;
 			//Trovato
-			if(inputTextList.get(centro).equals(s)){
+			if(inputTextList.get(centro).toLowerCase().equals(s)){
 				posizioneTrovata = centro;
 			}
 			//Non trovato, continua a destra
-			else if(s.compareTo(inputTextList.get(centro))>0){
+			else if(s.compareTo(inputTextList.get(centro).toLowerCase())>0){
 				start = centro+1;
 			}
 			//Non trovato, continua a sinistra
@@ -54,7 +54,7 @@ public class Dictionary {
 		for(String s : inputTextList){
 			//Assumendo che ci sia una parola per riga
 			//Ricerca dicotomica
-			int i = ricercaDicotomicaStringa(inputTextList, s);
+			int i = ricercaDicotomicaStringa(dizionario, s);
 			if(i == -1){
 				RichWord wtemp = new RichWord(s, false);
 				listaSbagliate.add(wtemp);

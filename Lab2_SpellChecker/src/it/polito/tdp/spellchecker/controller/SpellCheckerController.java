@@ -12,6 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class SpellCheckerController {
 
@@ -31,13 +34,16 @@ public class SpellCheckerController {
     @FXML
     private Button btnspellCheck;
     @FXML
-    private TextArea txtResult;
+    private TextFlow txtResult;
     @FXML
     private Label lblResult;
     @FXML
     private Button btnClearText;
     @FXML
     private Label lblTime;
+    Text textEmpty = new Text("");
+    Text errNoLingua = new Text("Scegliere una lingua per il controllo ortografico");
+    Text errNoTesto = new Text("Inserire il testo per il controllo ortografico");
     
     public void setModel(Dictionary model){
     	this.model = model;
@@ -46,15 +52,17 @@ public class SpellCheckerController {
     @FXML
     void doClearText(ActionEvent event) {
     	txtInput.setText("");
-    	txtResult.setText("");
+    	txtResult.getChildren().clear();
     	lblResult.setVisible(false);
+    	lblTime.setVisible(false);
     }
 
     @FXML
     void doSpellCheck(ActionEvent event) {
+    	txtResult.getChildren().clear();
     	//Gestione eccezioni e controllo lingua dizionario
     	if(boxLanguage.getValue() == null){
-    		txtResult.setText("Scegliere una lingua per il controllo ortografico");
+    		txtResult.getChildren().add(errNoLingua);
     		return;
     	}
     	else if(boxLanguage.getValue().compareTo("English")== 0){
@@ -67,23 +75,35 @@ public class SpellCheckerController {
     	}
     	List<RichWord> paroleErrate = new ArrayList<RichWord>();
     	if(txtInput.getText().compareTo("")==0){
-    		txtResult.setText("Inserire il testo per il controllo ortografico");
+    		txtResult.getChildren().add(errNoTesto);
     		return;
     	}
     	//Controllo ortografico e calcolo tempo impiegato
     	String inputText = txtInput.getText().toLowerCase();
+    	List<String> inputDiviso = new ArrayList<String>();
+    	inputDiviso = model.dividiTesto(inputText);
     	long t0 = System.nanoTime();
-    	paroleErrate = model.spellCheckTestDicotomica(model.dividiTesto(inputText));
+    	paroleErrate = model.spellCheckTest(inputDiviso);
     	long t1 = System.nanoTime();
     	lblTime.setVisible(true);
     	lblTime.setText(String.format("Spell check completed in %f seconds", (t1-t0)/1e9));
     	//Formattazione e comparsa testo risultato
     	String result = "";
-    	for(int i=0; i<paroleErrate.size()-1; i++){
-    		result += paroleErrate.get(i)+" ";
+    	List<Text> risultato = new ArrayList<Text>();
+    	for(int i=0; i<inputDiviso.size(); i++){
+    		result = inputDiviso.get(i);
+    		Text ttemp = new Text(result);
+    		if(i!=inputDiviso.size()-1){
+    			ttemp = new Text(result+" ");
+    		}
+    		for(RichWord rw : paroleErrate){
+    			if(rw.getParola().equals(result)){
+        			ttemp.setFill(Color.RED);
+        		}
+    		}
+    		risultato.add(ttemp);
     	}
-    	result += paroleErrate.get(paroleErrate.size()-1);
-    	txtResult.setText(result);
+       	txtResult.getChildren().addAll(risultato);
     	if(result.compareTo("")!=0){
     		lblResult.setVisible(true);
     	}

@@ -18,6 +18,10 @@ public class RichWord {
 		this.corretta = corretta;
 	}
 	
+	public String getParola() {
+		return parola;
+	}
+
 	public String toString(){
 		return parola;
 	}
