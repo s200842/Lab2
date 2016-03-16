@@ -66,7 +66,8 @@ public class SpellCheckerController {
         assert btnClearText != null : "fx:id=\"btnClearText\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         assert lblTime != null : "fx:id=\"lblTime\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         
-        boxLanguage.getItems().addAll("English", "Italian");
+        boxLanguage.getItems().add("English");
+        boxLanguage.getItems().add("Italian");
     }
 }
 

@@ -17,8 +17,8 @@ public class RichWord {
 	public void setCorretta(boolean corretta) {
 		this.corretta = corretta;
 	}
-
-	public String getParola() {
+	
+	public String toString(){
 		return parola;
 	}
 	
