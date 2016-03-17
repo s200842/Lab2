@@ -10,6 +10,7 @@ public class EnglishDictionary extends Dictionary {
 	public EnglishDictionary() {
 		super();
 		dizionario = new ArrayList<String>();
+		this.loadDictionary();
 	}
 
 	public String loadDictionary() {

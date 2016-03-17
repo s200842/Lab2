@@ -1,6 +1,6 @@
 package it.polito.tdp.spellchecker.controller;
 	
-import it.polito.tdp.spellchecker.model.Dictionary;
+import it.polito.tdp.spellchecker.model.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -22,8 +22,9 @@ public class Main extends Application {
 			primaryStage.show();
 			//Collegamento model-controller
 			SpellCheckerController controller = loader.getController();
-			Dictionary model = new Dictionary();
-			controller.setModel(model);
+			ItalianDictionary modelIta = new ItalianDictionary();
+			EnglishDictionary modelEng = new EnglishDictionary();
+			controller.importModel(modelIta, modelEng);
 			
 		} catch(Exception e) {
 			e.printStackTrace();

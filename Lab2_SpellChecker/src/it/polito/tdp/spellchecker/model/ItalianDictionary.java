@@ -8,6 +8,7 @@ public class ItalianDictionary extends Dictionary {
 	public ItalianDictionary() {
 		super();
 		dizionario = new ArrayList<String>();
+		this.loadDictionary();
 	}
 
 	public String loadDictionary() {
@@ -17,6 +18,9 @@ public class ItalianDictionary extends Dictionary {
 			BufferedReader br = new BufferedReader(fr);
 			String word;
 			while ((word = br.readLine()) != null) {
+				if(word.contains("'")){ //elimino apostrofi per poter eseguire la normale ricerca dicotomica
+					word = word.replace("'", "");
+				}
 			// Aggiungo word alla struttura dati
 				dizionario.add(word);
 			}

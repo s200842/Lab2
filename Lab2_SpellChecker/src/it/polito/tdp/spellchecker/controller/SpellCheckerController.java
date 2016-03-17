@@ -18,6 +18,8 @@ import javafx.scene.text.TextFlow;
 
 public class SpellCheckerController {
 
+	private ItalianDictionary modelIta;
+	private EnglishDictionary modelEng;
 	private Dictionary model;
     @FXML
     private ResourceBundle resources;
@@ -41,9 +43,13 @@ public class SpellCheckerController {
     private Button btnClearText;
     @FXML
     private Label lblTime;
-    Text textEmpty = new Text("");
-    Text errNoLingua = new Text("Scegliere una lingua per il controllo ortografico");
-    Text errNoTesto = new Text("Inserire il testo per il controllo ortografico");
+    private Text errNoLingua = new Text("Scegliere una lingua per il controllo ortografico");
+    private Text errNoTesto = new Text("Inserire il testo per il controllo ortografico");
+    
+    public void importModel(ItalianDictionary modelIta, EnglishDictionary modelEng){
+    	this.modelIta = modelIta;
+    	this.modelEng = modelEng;
+    }
     
     public void setModel(Dictionary model){
     	this.model = model;
@@ -59,26 +65,27 @@ public class SpellCheckerController {
 
     @FXML
     void doSpellCheck(ActionEvent event) {
+    	//Resetto l'output del textFlow
     	txtResult.getChildren().clear();
-    	//Gestione eccezioni e controllo lingua dizionario
+    	//Gestione eccezioni
     	if(boxLanguage.getValue() == null){
     		txtResult.getChildren().add(errNoLingua);
     		return;
     	}
-    	else if(boxLanguage.getValue().compareTo("English")== 0){
-    		model = new EnglishDictionary();
-    		model.loadDictionary();
-    	}
-    	else if(boxLanguage.getValue().compareTo("Italian")== 0){
-    		model = new ItalianDictionary();
-    		model.loadDictionary();
-    	}
-    	List<RichWord> paroleErrate = new ArrayList<RichWord>();
-    	if(txtInput.getText().compareTo("")==0){
+    	else if(txtInput.getText().compareTo("")==0){
     		txtResult.getChildren().add(errNoTesto);
     		return;
     	}
+    	//Caricamento lingua corretta nel dizionario
+    	else if(boxLanguage.getValue().compareTo("English")== 0){
+    		setModel(modelEng);
+    	}
+    	else if(boxLanguage.getValue().compareTo("Italian")== 0){
+    		setModel(modelIta);
+    	}
+    	
     	//Controllo ortografico e calcolo tempo impiegato
+    	List<RichWord> paroleErrate = new ArrayList<RichWord>();
     	String inputText = txtInput.getText().toLowerCase();
     	List<String> inputDiviso = new ArrayList<String>();
     	inputDiviso = model.dividiTesto(inputText);
@@ -104,7 +111,7 @@ public class SpellCheckerController {
     		risultato.add(ttemp);
     	}
        	txtResult.getChildren().addAll(risultato);
-    	if(result.compareTo("")!=0){
+    	if(paroleErrate.isEmpty()==false){
     		lblResult.setVisible(true);
     	}
     }

@@ -9,14 +9,6 @@ public class RichWord {
 		this.parola = parola;
 		this.corretta = corretta;
 	}
-
-	public boolean isCorretta() {
-		return corretta;
-	}
-
-	public void setCorretta(boolean corretta) {
-		this.corretta = corretta;
-	}
 	
 	public String getParola() {
 		return parola;
