@@ -1,5 +1,8 @@
 package it.polito.tdp.spellchecker.model;
 
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+
 public class RichWord {
 	
 	private String parola;
@@ -16,6 +19,16 @@ public class RichWord {
 
 	public String toString(){
 		return parola;
+	}
+	
+	public int checkTrue(Text t){
+		if(this.corretta == false){
+			t.setFill(Color.RED);
+			return -1;
+		}
+		else{
+			return 0;
+		}
 	}
 	
 	

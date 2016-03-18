@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -85,34 +84,20 @@ public class SpellCheckerController {
     	}
     	
     	//Controllo ortografico e calcolo tempo impiegato
-    	List<RichWord> paroleErrate = new ArrayList<RichWord>();
     	String inputText = txtInput.getText().toLowerCase();
-    	List<String> inputDiviso = new ArrayList<String>();
-    	inputDiviso = model.dividiTesto(inputText);
+    	List<String> inputDiviso = new ArrayList<String>(model.dividiTesto(inputText));
     	long t0 = System.nanoTime();
-    	paroleErrate = model.spellCheckTest(inputDiviso);
+    	List<RichWord> paroleFinal = new ArrayList<RichWord>(model.spellCheckTest(inputDiviso));
     	long t1 = System.nanoTime();
     	lblTime.setVisible(true);
     	lblTime.setText(String.format("Spell check completed in %f seconds", (t1-t0)/1e9));
     	//Formattazione e comparsa testo risultato
-    	String result = "";
-    	List<Text> risultato = new ArrayList<Text>();
-    	for(int i=0; i<inputDiviso.size(); i++){
-    		result = inputDiviso.get(i);
-    		Text ttemp = new Text(result);
-    		if(i!=inputDiviso.size()-1){
-    			ttemp = new Text(result+" ");
+    	for(RichWord rw : paroleFinal){
+    		Text ttemp = new Text(rw.getParola()+" ");
+    		if(rw.checkTrue(ttemp) == -1){
+    			lblResult.setVisible(true);
     		}
-    		for(RichWord rw : paroleErrate){
-    			if(rw.getParola().equals(result)){
-        			ttemp.setFill(Color.RED);
-        		}
-    		}
-    		risultato.add(ttemp);
-    	}
-       	txtResult.getChildren().addAll(risultato);
-    	if(paroleErrate.isEmpty()==false){
-    		lblResult.setVisible(true);
+    		txtResult.getChildren().add(ttemp);
     	}
     }
 

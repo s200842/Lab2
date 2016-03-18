@@ -14,29 +14,37 @@ public class Dictionary {
 	
 	public List<RichWord> spellCheckTest(List<String> inputTextList){
 		//Metodo per il controllo ortografico del testo in input
-		List<RichWord> listaSbagliate = new ArrayList<RichWord>();
+		List<RichWord> listaParole = new ArrayList<RichWord>();
 		for(String s : inputTextList){
 			//Assumendo che ci sia una parola per riga
 			if(dizionario.contains(s)==false){
 				RichWord wtemp = new RichWord(s, false);
-				listaSbagliate.add(wtemp);
+				listaParole.add(wtemp);
+			}
+			else{
+				RichWord wtemp = new RichWord(s, true);
+				listaParole.add(wtemp);
 			}
 		}
-		return listaSbagliate;
+		return listaParole;
 	}
 	
 	public List<RichWord> spellCheckTestDicotomica(List<String> inputTextList){
 		//Metodo per il controllo ortografico del testo in input
-		List<RichWord> listaSbagliate = new ArrayList<RichWord>();
+		List<RichWord> listaParole = new ArrayList<RichWord>();
 		for(String s : inputTextList){
 			//Assumendo che ci sia una parola per riga
 			int i = ricercaDicotomica(dizionario, s, 0, dizionario.size()-1);
 			if(i == -1){
 				RichWord wtemp = new RichWord(s, false);
-				listaSbagliate.add(wtemp);
+				listaParole.add(wtemp);
+			}
+			else{
+				RichWord wtemp = new RichWord(s, true);
+				listaParole.add(wtemp);
 			}
 		}
-		return listaSbagliate;
+		return listaParole;
 	}
 	
 	public int ricercaDicotomica(List<String> inputTextList, String s, int low, int high){
@@ -65,5 +73,7 @@ public class Dictionary {
 		}
 		return result;
 	}
+	
+	
 }
 
