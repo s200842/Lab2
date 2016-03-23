@@ -3,6 +3,8 @@ package it.polito.tdp.spellchecker.model;
 import java.io.*;
 import java.util.*;
 
+import it.polito.tdp.spellchecker.db.RichWordDAO;
+
 public class ItalianDictionary extends Dictionary {
 
 	public ItalianDictionary() {
@@ -33,4 +35,25 @@ public class ItalianDictionary extends Dictionary {
 		return "Lettura file avvenuta correttamente";
 	}
 
+	@Override
+	public List<RichWord> spellCheckTest(List<String> inputTextList) {
+		//Metodo per il controllo ortografico del testo in input
+		RichWordDAO dao = new RichWordDAO();
+		List<RichWord> listaParole = new ArrayList<RichWord>();
+		for(String s : inputTextList){
+			//Assumendo che ci sia una parola per riga
+			if(dao.cercaParola(s)==false){
+				RichWord wtemp = new RichWord(s, false);
+				listaParole.add(wtemp);
+			}
+			else{
+				RichWord wtemp = new RichWord(s, true);
+				listaParole.add(wtemp);
+			}
+		}
+		return listaParole;
+	}
+
 }
+
+

@@ -3,14 +3,11 @@ package it.polito.tdp.spellchecker.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dictionary {
+public abstract class Dictionary {
 	
 	protected List<String> dizionario;
 	
-	public String loadDictionary(){
-		//Implementato nelle classi figlie
-		return null;
-	}
+	public abstract String loadDictionary();
 	
 	public List<RichWord> spellCheckTest(List<String> inputTextList){
 		//Metodo per il controllo ortografico del testo in input
@@ -49,7 +46,6 @@ public class Dictionary {
 	
 	public int ricercaDicotomica(List<String> inputTextList, String s, int low, int high){
 		int mid = (low+high)/2;
-		System.out.println(s+" è minore di "+inputTextList.get(mid)+"?");
 		if((mid<low) || (high <0)){
 			return -1; //non trovato
 		}
